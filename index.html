@@ -372,6 +372,70 @@ iframe {
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.32);
 }
 
+.soundtrack-panel {
+    max-width: 760px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.soundtrack-cta-wrap {
+    margin-top: var(--space-4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.soundtrack-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 14px 22px;
+    min-height: 46px;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #1db954, #49df82);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #062111;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    cursor: pointer;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, opacity 0.22s ease;
+}
+
+.soundtrack-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(73, 223, 130, 0.36);
+}
+
+.soundtrack-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.soundtrack-status {
+    margin-top: var(--space-2);
+    min-height: 20px;
+    color: #9dd8ff;
+    font-weight: 700;
+}
+
+.soundtrack-copyright {
+    margin-top: var(--space-2);
+    color: #9da9c6;
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
+
+.spotify-controller-host {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
 .fallback-link {
     margin-top: var(--space-3);
     display: inline-block;
@@ -827,6 +891,19 @@ button,
 </div>
 
 <div class="section">
+    <div class="soundtrack-panel">
+        <h2>Official Soundtrack</h2>
+        <p>Listen while you wait for GTA VI.</p>
+        <div class="soundtrack-cta-wrap">
+            <button class="soundtrack-btn" id="soundtrackBtn" type="button" aria-label="Play GTA VI soundtrack" disabled>Loading Soundtrack...</button>
+        </div>
+        <div id="soundtrackStatus" class="soundtrack-status" aria-live="polite"></div>
+        <p class="soundtrack-copyright">Audio and music rights belong to their respective copyright owners, including Rockstar Games and Spotify.</p>
+        <div id="spotifyControllerHost" class="spotify-controller-host" aria-hidden="true"></div>
+    </div>
+</div>
+
+<div class="section">
     <div class="subtitle" aria-label="Launching on PlayStation 5 and Xbox Series X and Series S">
         <span class="subtitle-label">Launching on</span>
         <span class="subtitle-date">PlayStation 5</span>
@@ -882,6 +959,7 @@ button,
     Grand Theft Auto, GTA, Rockstar Games, and related marks are trademarks of their respective owners.
 </footer>
 
+<script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 <script>
 let percent = 0;
 const percentageText = document.getElementById("percentage");
@@ -1041,6 +1119,58 @@ document.addEventListener("visibilitychange", () => {
     }
 });
 
+const soundtrackBtn = document.getElementById("soundtrackBtn");
+const soundtrackStatus = document.getElementById("soundtrackStatus");
+const spotifyControllerHost = document.getElementById("spotifyControllerHost");
+let spotifyController = null;
+let soundtrackIsPlaying = false;
+
+function setSoundtrackButtonLabel() {
+    if (!soundtrackBtn) {
+        return;
+    }
+    soundtrackBtn.textContent = soundtrackIsPlaying ? "Pause Soundtrack" : "Play Soundtrack";
+}
+
+window.onSpotifyIframeApiReady = (IFrameAPI) => {
+    if (!IFrameAPI || !spotifyControllerHost || !soundtrackBtn) {
+        return;
+    }
+
+    IFrameAPI.createController(spotifyControllerHost, {
+        uri: "spotify:track:4PJEK76V3A1S0XzZJuTWh7",
+        width: 0,
+        height: 0
+    }, (EmbedController) => {
+        spotifyController = EmbedController;
+        soundtrackBtn.disabled = false;
+        soundtrackStatus.textContent = "";
+        setSoundtrackButtonLabel();
+
+        soundtrackBtn.addEventListener("click", () => {
+            if (!spotifyController) {
+                return;
+            }
+
+            if (soundtrackIsPlaying) {
+                spotifyController.pause();
+            } else {
+                spotifyController.play();
+            }
+
+            soundtrackIsPlaying = !soundtrackIsPlaying;
+            setSoundtrackButtonLabel();
+            trackEvent("soundtrack_toggle", { action: soundtrackIsPlaying ? "play" : "pause" });
+        });
+    });
+};
+
+setTimeout(() => {
+    if (soundtrackBtn && !spotifyController) {
+        soundtrackStatus.textContent = "Could not load soundtrack player right now.";
+    }
+}, 5000);
+
 const featuredTrailer = document.getElementById("featuredTrailer");
 const youtubeFallback = document.getElementById("youtubeFallback");
 document.querySelectorAll(".trailer-card").forEach((button) => {
@@ -1186,4 +1316,8 @@ copyStoryTextBtn.addEventListener("click", () => {
 
 </body>
 </html>
+
+
+
+
 
