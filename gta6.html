@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+
+<meta name="description" content="Live countdown to GTA 6 official release on 19 November 2026.">
+<meta name="keywords" content="GTA 6 countdown, Grand Theft Auto VI release date, 19 November 2026">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GTA VI Countdown">
+<meta property="og:description" content="Live countdown to GTA VI official release on 19 November 2026.">
+<meta property="og:image" content="background.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GTA VI Countdown">
+<meta name="twitter:description" content="Live countdown to GTA VI official release on 19 November 2026.">
+<meta name="twitter:image" content="background.png">
+<link rel="canonical" href="./">
+
+<title>GTA VI Countdown</title>
+
+<link rel="preload" href="background.png" as="image">
+<link rel="preload" href="grand_theft_auto_vi_logo.png" as="image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --font-display: "League Spartan", "Anton", sans-serif;
+    --font-body: "Manrope", sans-serif;
+    --space-1: 8px;
+    --space-2: 12px;
+    --space-3: 16px;
+    --space-4: 24px;
+    --space-5: 32px;
+    --space-6: 48px;
+    --bg-main: #07050f;
+    --bg-card: rgba(16, 20, 32, 0.78);
+    --bg-card-strong: rgba(10, 14, 24, 0.9);
+    --line: rgba(255, 255, 255, 0.18);
+    --text: #f5f8ff;
+    --muted: #b6bdd3;
+    --accent-1: #ff7b8f;
+    --accent-2: #f7a75e;
+    --accent-3: #62d6ff;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    color: var(--text);
+    text-align: center;
+    background:
+        radial-gradient(75% 55% at 80% -5%, rgba(101, 67, 182, 0.28), transparent 70%),
+        radial-gradient(60% 40% at 0% 100%, rgba(230, 96, 119, 0.22), transparent 75%),
+        linear-gradient(180deg, #05040a 0%, #0a0714 45%, #08060f 100%);
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+#loader {
+    position: fixed;
+    inset: 0;
+    background: #05040a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 9999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 7vw, 3rem);
+    letter-spacing: 3px;
+    color: #ffe8d1;
+    text-shadow: 0 0 20px rgba(247, 167, 94, 0.45);
+}
+
+.loader-percentage {
+    margin-top: var(--space-3);
+    font-size: 1rem;
+    letter-spacing: 2px;
+    color: var(--accent-2);
+}
+
+.progress-bar {
+    width: 250px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.14);
+    margin-top: var(--space-2);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    transition: width 0.2s ease;
+}
+
+#loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100svh;
+    background-image: url("background.png");
+    background-size: 104%;
+    background-position: center;
+    padding: var(--space-4);
+    padding-top: calc(var(--space-5) + env(safe-area-inset-top));
+    padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom));
+    overflow: hidden;
+    animation: bgPan 28s ease-in-out infinite alternate;
+}
+
+.hero::before {
+    content: "";
+    position: absolute;
+    width: min(70vw, 700px);
+    aspect-ratio: 1;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 145, 90, 0.42), rgba(255, 145, 90, 0.05) 58%, transparent 70%);
+    filter: blur(10px);
+    z-index: 1;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(5, 3, 10, 0.45) 0%, rgba(6, 4, 12, 0.7) 60%, rgba(6, 4, 10, 0.82) 100%),
+        repeating-linear-gradient(
+            to top,
+            rgba(113, 128, 167, 0.08) 0 1px,
+            transparent 1px 32px
+        );
+    z-index: 1;
+}
+
+.hero * {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-brand {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-1);
+}
+
+.hero-logo {
+    display: block;
+    width: min(500px, 74vw);
+    height: auto;
+    margin: 0 auto;
+    transform: translateX(-8px);
+    filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.55));
+}
+
+.subtitle {
+    margin-bottom: var(--space-2);
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 6.1vw, 4.8rem);
+    font-weight: 800;
+    line-height: 0.96;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: #f7a97f;
+    text-shadow: 0 8px 30px rgba(9, 10, 16, 0.9);
+}
+
+.subtitle-label {
+    display: block;
+    font-size: 0.34em;
+    letter-spacing: 2.8px;
+    margin-bottom: var(--space-2);
+    color: #ff6f9d;
+}
+
+.subtitle-date {
+    display: block;
+    color: #ff9a7a;
+}
+
+.subtitle-year {
+    display: block;
+    margin-top: 4px;
+    color: #ffd08e;
+}
+
+.timezone-info {
+    font-size: 0.92rem;
+    letter-spacing: 0.2px;
+    color: var(--muted);
+    margin: 0 auto var(--space-3);
+    max-width: 900px;
+    text-align: center;
+}
+
+.countdown {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(128px, 1fr));
+    gap: var(--space-2);
+    width: min(760px, 94vw);
+    margin: var(--space-1) auto 0;
+    padding: var(--space-2);
+    background: linear-gradient(180deg, rgba(28, 34, 52, 0.5), rgba(11, 13, 22, 0.25));
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.42);
+}
+
+.time-box {
+    background: linear-gradient(180deg, rgba(19, 24, 37, 0.95), rgba(9, 12, 20, 0.93));
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 14px;
+    padding: 14px 10px;
+    min-height: 112px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 14px 24px rgba(0, 0, 0, 0.3);
+}
+
+.time-box span {
+    display: block;
+    will-change: transform, opacity;
+}
+
+.time-number {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(2.05rem, 4.1vw, 3rem);
+    line-height: 1;
+    letter-spacing: 1px;
+    color: #fff8f2;
+    text-shadow: 0 10px 20px rgba(0, 0, 0, 0.56);
+}
+
+.time-label {
+    margin-top: var(--space-2);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    letter-spacing: 1.7px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #9da9c6;
+}
+
+.time-box span.tick-number {
+    animation: tickerSlide 0.22s ease-out;
+}
+
+.section {
+    padding: var(--space-6) var(--space-4);
+    background: linear-gradient(180deg, rgba(12, 11, 22, 0.9), rgba(9, 8, 17, 0.92));
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    content-visibility: auto;
+    contain-intrinsic-size: 760px;
+    animation: sectionReveal 0.7s ease both;
+}
+
+.section:nth-of-type(odd) {
+    background: linear-gradient(180deg, rgba(14, 11, 25, 0.95), rgba(8, 7, 15, 0.95));
+}
+
+.section:nth-of-type(1) { animation-delay: 0.04s; }
+.section:nth-of-type(2) { animation-delay: 0.1s; }
+.section:nth-of-type(3) { animation-delay: 0.16s; }
+.section:nth-of-type(4) { animation-delay: 0.22s; }
+.section:nth-of-type(5) { animation-delay: 0.28s; }
+
+html.performance-lite .hero {
+    animation: none;
+    min-height: 100vh;
+    min-height: 100svh;
+}
+
+html.performance-lite .hero::before {
+    display: none;
+}
+
+html.performance-lite .section {
+    animation: none;
+}
+
+html.performance-lite .countdown {
+    backdrop-filter: none;
+}
+
+html.performance-lite .time-box,
+html.performance-lite .trailer-card,
+html.performance-lite .platform-card,
+html.performance-lite iframe,
+html.performance-lite .discord-cta {
+    box-shadow: none;
+}
+
+html.performance-lite .trailer-card:hover,
+html.performance-lite .platform-card:hover,
+html.performance-lite button:hover,
+html.performance-lite .discord-cta:hover {
+    transform: none;
+}
+
+h2 {
+    margin: 0 0 var(--space-3);
+    font-family: var(--font-display);
+    font-size: clamp(1.65rem, 3.2vw, 2.55rem);
+    letter-spacing: 1px;
+    color: #ffd7a7;
+    text-transform: uppercase;
+}
+
+p {
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #ccd3e5;
+    max-width: 700px;
+}
+
+.featured-wrap {
+    max-width: 920px;
+    margin: 0 auto;
+}
+
+iframe {
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    margin-top: var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    display: block;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.32);
+}
+
+.fallback-link {
+    margin-top: var(--space-3);
+    display: inline-block;
+    color: #ffbf76;
+    text-decoration: none;
+    font-weight: 700;
+}
+
+.trailer-grid {
+    margin: var(--space-5) auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-3);
+    max-width: 920px;
+}
+
+.trailer-card {
+    background: var(--bg-card-strong);
+    border: 1px solid var(--line);
+    color: var(--text);
+    cursor: pointer;
+    padding: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.trailer-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(255, 173, 102, 0.8);
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.35);
+}
+
+.trailer-card img {
+    width: 100%;
+    display: block;
+}
+
+.trailer-card span {
+    display: block;
+    padding: var(--space-2);
+    letter-spacing: 0.7px;
+    font-weight: 700;
+    font-size: 0.94rem;
+}
+
+.platforms-grid {
+    margin: var(--space-4) auto 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: var(--space-3);
+    max-width: 760px;
+}
+
+.platform-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    color: #f4f6ff;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.platform-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(255, 174, 121, 0.88);
+    background: rgba(22, 28, 42, 0.92);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+}
+
+.platform-icon {
+    width: 18px;
+    height: 18px;
+    display: block;
+    flex: 0 0 auto;
+    filter: drop-shadow(0 0 8px rgba(127, 201, 255, 0.25));
+}
+
+.icon-fallback {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: 0.56rem;
+    line-height: 1;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+}
+
+.icon-fallback.show {
+    display: inline-flex;
+}
+
+.notify-form {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-2);
+    flex-wrap: wrap;
+    margin-top: var(--space-4);
+}
+
+.notify-form input {
+    padding: 14px 16px;
+    font-size: 0.98rem;
+    min-width: 280px;
+    min-height: 46px;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(8, 9, 16, 0.72);
+    color: #fff;
+    border-radius: 10px;
+    font-family: var(--font-body);
+}
+
+button {
+    background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+    border: 0;
+    padding: 14px 22px;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    font-weight: 800;
+    color: #1f0f10;
+    cursor: pointer;
+    letter-spacing: 0.6px;
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+    min-height: 46px;
+    border-radius: 10px;
+}
+
+button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(247, 126, 125, 0.36);
+}
+
+#notifyMessage {
+    margin-top: var(--space-3);
+    min-height: 20px;
+    color: #ffbe7a;
+    font-weight: 700;
+}
+
+.share-section {
+    padding-top: var(--space-5);
+}
+
+.share-actions {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+}
+
+.share-btn {
+    background: rgba(21, 25, 37, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: #fff;
+}
+
+.share-btn:hover {
+    box-shadow: 0 10px 24px rgba(84, 178, 255, 0.24);
+}
+
+#shareMessage {
+    min-height: 20px;
+    margin-top: var(--space-3);
+    color: #9dd8ff;
+    font-weight: 700;
+}
+
+.discord-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    border-radius: 999px;
+    background: #5865f2;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    text-decoration: none;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.discord-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(88, 101, 242, 0.42);
+}
+
+.discord-logo {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.discord-section {
+    padding: var(--space-4) var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+}
+
+.discord-text {
+    margin: 0;
+    font-size: 0.96rem;
+    color: #d6deef;
+}
+
+footer {
+    padding: var(--space-5);
+    padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom));
+    background: #05040a;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 13px;
+    color: #959db4;
+    line-height: 1.7;
+}
+
+button,
+a,
+input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+    outline: 3px solid var(--accent-3);
+    outline-offset: 2px;
+}
+
+button,
+.trailer-card,
+.share-btn {
+    touch-action: manipulation;
+}
+
+@supports not ((backdrop-filter: blur(6px)) or (-webkit-backdrop-filter: blur(6px))) {
+    .countdown {
+        background: rgba(18, 22, 34, 0.9);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (max-width: 900px) {
+    .hero-logo {
+        width: min(420px, 78vw);
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-logo {
+        width: min(330px, 80vw);
+        transform: translateX(-5px);
+    }
+
+    .subtitle {
+        font-size: clamp(1.55rem, 12vw, 3.2rem);
+        letter-spacing: 1px;
+        margin-bottom: var(--space-2);
+    }
+
+    .subtitle-label {
+        font-size: 0.35em;
+        letter-spacing: 2px;
+        margin-bottom: var(--space-1);
+    }
+
+    .timezone-info {
+        font-size: 0.84rem;
+        margin-bottom: var(--space-4);
+    }
+
+    .countdown {
+        grid-template-columns: repeat(2, minmax(118px, 1fr));
+        gap: var(--space-2);
+        width: min(360px, 94vw);
+        padding: var(--space-2);
+        border-radius: 14px;
+    }
+
+    .time-box {
+        min-height: 94px;
+        padding: 11px 8px;
+    }
+
+    .time-number {
+        font-size: 1.95rem;
+    }
+
+    .time-label {
+        margin-top: var(--space-1);
+        font-size: 0.68rem;
+        letter-spacing: 0.9px;
+    }
+
+    .section {
+        padding: var(--space-5) var(--space-3);
+    }
+
+    .discord-section {
+        padding: var(--space-3);
+        flex-wrap: wrap;
+    }
+
+    .discord-text {
+        text-align: center;
+    }
+
+    .share-section {
+        padding-top: var(--space-4);
+    }
+}
+
+@media (max-width: 480px) {
+    p {
+        font-size: 0.94rem;
+    }
+
+    .notify-form input {
+        min-width: 100%;
+        width: min(420px, 94vw);
+    }
+
+    .notify-form button {
+        width: min(420px, 94vw);
+    }
+}
+
+@keyframes bgPan {
+    from {
+        background-size: 104%;
+        background-position: 50% 50%;
+    }
+    to {
+        background-size: 110%;
+        background-position: 55% 42%;
+    }
+}
+
+@keyframes tickerSlide {
+    0% {
+        transform: translateY(8%);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes sectionReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+    <div class="loader-title">GRAND THEFT AUTO VI</div>
+    <div class="loader-percentage" id="percentage">0%</div>
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+</div>
+
+<div class="hero">
+    <div class="hero-brand">
+        <img class="hero-logo" src="grand_theft_auto_vi_logo.png" alt="Grand Theft Auto VI logo" decoding="async" fetchpriority="high">
+    </div>
+    <div class="subtitle" aria-label="Official Release Date: 19 November 2026">
+        <span class="subtitle-label">Official Release Date</span>
+        <span class="subtitle-date">November 19</span>
+        <span class="subtitle-year">2026</span>
+    </div>
+    <div class="timezone-info" id="timezoneInfo"></div>
+
+    <div class="countdown" aria-live="polite">
+        <div class="time-box">
+            <span id="days" class="time-number">0</span>
+            <span class="time-label">Days</span>
+        </div>
+        <div class="time-box">
+            <span id="hours" class="time-number">0</span>
+            <span class="time-label">Hours</span>
+        </div>
+        <div class="time-box">
+            <span id="minutes" class="time-number">0</span>
+            <span class="time-label">Minutes</span>
+        </div>
+        <div class="time-box">
+            <span id="seconds" class="time-number">0</span>
+            <span class="time-label">Seconds</span>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>Watch GTA VI Videos</h2>
+    <div class="featured-wrap">
+        <iframe
+            id="featuredTrailer"
+            title="Featured GTA trailer"
+            src="https://www.youtube-nocookie.com/embed/QdBZY2fkU-0?rel=0&modestbranding=1&playsinline=1"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+        </iframe>
+        <a id="youtubeFallback" class="fallback-link" href="https://www.youtube.com/watch?v=QdBZY2fkU-0" target="_blank" rel="noopener noreferrer">
+            If the video does not load, open on YouTube.
+        </a>
+    </div>
+
+    <div class="trailer-grid">
+        <button class="trailer-card" type="button" data-video="QdBZY2fkU-0" data-youtube="https://www.youtube.com/watch?v=QdBZY2fkU-0">
+            <img src="https://img.youtube.com/vi/QdBZY2fkU-0/hqdefault.jpg" alt="GTA VI Trailer 1 thumbnail" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            <span>GTA VI Trailer 1</span>
+        </button>
+        <button class="trailer-card" type="button" data-video="VQRLujxTm3c" data-youtube="https://youtu.be/VQRLujxTm3c?si=TDY0lc42xOhlPuX5">
+            <img src="https://img.youtube.com/vi/VQRLujxTm3c/hqdefault.jpg" alt="Rockstar trailer thumbnail" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            <span>GTA VI Trailer 2</span>
+        </button>
+        <button class="trailer-card" type="button" data-video="QdBZY2fkU-0" data-youtube="https://www.youtube.com/watch?v=QdBZY2fkU-0">
+            <img src="https://img.youtube.com/vi/QdBZY2fkU-0/maxresdefault.jpg" alt="Rockstar gameplay trailer thumbnail" loading="lazy" decoding="async" referrerpolicy="no-referrer">
+            <span>GTA VI Trailer 1 (Alt)</span>
+        </button>
+    </div>
+</div>
+
+<div class="section">
+    <div class="subtitle" aria-label="Launching on PlayStation 5 and Xbox Series X and Series S">
+        <span class="subtitle-label">Launching on</span>
+        <span class="subtitle-date">PlayStation 5</span>
+        <span class="subtitle-year">Xbox Series X|S</span>
+    </div>
+    <div class="platforms-grid">
+        <a class="platform-card" href="https://store.playstation.com/en-us/search/grand%20theft%20auto%20vi" data-platform="playstation" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="Wishlist GTA VI on PlayStation 5">
+            <img class="platform-icon" src="playstation.svg" data-fallback-src="https://cdn.simpleicons.org/playstation/white" alt="PlayStation logo" loading="lazy" decoding="async">
+            <span class="icon-fallback" aria-hidden="true">PS</span>
+            <span>PlayStation 5</span>
+        </a>
+        <a class="platform-card" href="https://www.xbox.com/en-US/Search/Results?q=Grand%20Theft%20Auto%20VI" data-platform="xbox" target="_blank" rel="noopener noreferrer" referrerpolicy="no-referrer" aria-label="Wishlist GTA VI on Xbox Series X and Series S">
+            <img class="platform-icon" src="xbox.svg" data-fallback-src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Xbox_one_logo.svg" alt="Xbox logo" loading="lazy" decoding="async">
+            <span class="icon-fallback" aria-hidden="true">XB</span>
+            <span>Xbox Series X|S</span>
+        </a>
+    </div>
+</div>
+
+<div class="section discord-section">
+    <p class="discord-text">Join Rockstar Games Discord for official announcements</p>
+    <a class="discord-cta" href="https://discord.gg/rockstargames" target="_blank" rel="noopener noreferrer" aria-label="Join official Rockstar Games Discord">
+        <img class="discord-logo" src="discord.svg" data-fallback-src="https://cdn.simpleicons.org/discord/white" alt="Discord logo" loading="lazy" decoding="async">
+        <span class="icon-fallback" aria-hidden="true">DS</span>
+    </a>
+</div>
+
+<div class="section">
+    <h2>Stay Updated</h2>
+    <p>Join the hype. Add your email for release reminders.</p>
+    <form id="notifyForm" class="notify-form" novalidate>
+        <input id="notifyEmail" type="email" placeholder="Enter your email" required aria-label="Email address" autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false">
+        <button type="submit">Notify Me</button>
+    </form>
+    <div id="notifyMessage"></div>
+</div>
+
+<div class="section share-section">
+    <h2>Share The Countdown</h2>
+    <p>Invite your friends to join the GTA VI hype.</p>
+    <div class="share-actions">
+        <button class="share-btn" id="copyLinkBtn" type="button">Copy Link</button>
+        <button class="share-btn" id="shareWhatsAppBtn" type="button">WhatsApp</button>
+        <button class="share-btn" id="shareXBtn" type="button">X</button>
+        <button class="share-btn" id="copyStoryTextBtn" type="button">Instagram Story Text</button>
+    </div>
+    <div id="shareMessage"></div>
+</div>
+
+<footer>
+    Unofficial fan-made countdown website.<br>
+    Not endorsed by or affiliated with Rockstar Games or Take-Two Interactive.<br>
+    Grand Theft Auto, GTA, Rockstar Games, and related marks are trademarks of their respective owners.
+</footer>
+
+<script>
+let percent = 0;
+const percentageText = document.getElementById("percentage");
+const progressBar = document.getElementById("progress");
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const lowPowerDevice = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) || false;
+const performanceLite = prefersReducedMotion || lowPowerDevice;
+
+if (performanceLite) {
+    document.documentElement.classList.add("performance-lite");
+}
+
+if (performanceLite) {
+    percent = 100;
+    percentageText.textContent = "100%";
+    progressBar.style.width = "100%";
+    document.getElementById("loader").classList.add("hidden");
+} else {
+    const loaderInterval = setInterval(() => {
+        percent++;
+        percentageText.textContent = percent + "%";
+        progressBar.style.width = percent + "%";
+
+        if (percent >= 100) {
+            clearInterval(loaderInterval);
+            setTimeout(() => {
+                document.getElementById("loader").classList.add("hidden");
+            }, 500);
+        }
+    }, 30);
+}
+
+const releaseDate = new Date("2026-11-19T00:00:00Z").getTime();
+const timezoneInfo = document.getElementById("timezoneInfo");
+const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+const localRelease = new Date(releaseDate).toLocaleString(undefined, {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short"
+});
+
+timezoneInfo.textContent = "Release moment: 19 Nov 2026, 00:00 UTC | Your timezone (" + localZone + "): " + localRelease;
+
+const timeEls = {
+    days: document.getElementById("days"),
+    hours: document.getElementById("hours"),
+    minutes: document.getElementById("minutes"),
+    seconds: document.getElementById("seconds")
+};
+const previousValues = {
+    days: null,
+    hours: null,
+    minutes: null,
+    seconds: null
+};
+let audioContext;
+
+function getAudioContext() {
+    if (!audioContext) {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) {
+            return null;
+        }
+        audioContext = new AudioCtx();
+    }
+    return audioContext;
+}
+
+async function unlockAudio() {
+    const ctx = getAudioContext();
+    if (ctx && ctx.state === "suspended") {
+        try {
+            await ctx.resume();
+        } catch (error) {
+            return;
+        }
+    }
+}
+
+function playTickSound() {
+    const ctx = getAudioContext();
+    if (!ctx || ctx.state !== "running") {
+        return;
+    }
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(980, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(420, ctx.currentTime + 0.018);
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + 0.002);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.03);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.032);
+}
+
+document.addEventListener("pointerdown", unlockAudio, { once: true });
+document.addEventListener("keydown", unlockAudio, { once: true });
+document.addEventListener("touchstart", unlockAudio, { once: true, passive: true });
+
+function setTimeUnit(key, value) {
+    const el = timeEls[key];
+    if (!el) {
+        return;
+    }
+    if (previousValues[key] !== value) {
+        const oldValue = previousValues[key];
+        if (!prefersReducedMotion) {
+            el.classList.remove("tick-number");
+            void el.offsetWidth;
+            el.classList.add("tick-number");
+        }
+        el.textContent = value;
+        previousValues[key] = value;
+        if (key === "seconds" && oldValue !== null) {
+            playTickSound();
+        }
+    }
+}
+
+let timer = null;
+
+function updateCountdown() {
+    const now = Date.now();
+    const distance = releaseDate - now;
+
+    if (distance <= 0) {
+        if (timer) {
+            clearInterval(timer);
+        }
+        document.querySelector(".countdown").innerHTML = "<h2 style='color:#f4b400; font-size:3rem;'>AVAILABLE NOW!</h2>";
+        return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    setTimeUnit("days", days);
+    setTimeUnit("hours", hours.toString().padStart(2, "0"));
+    setTimeUnit("minutes", minutes.toString().padStart(2, "0"));
+    setTimeUnit("seconds", seconds.toString().padStart(2, "0"));
+}
+
+updateCountdown();
+timer = setInterval(updateCountdown, 1000);
+document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) {
+        updateCountdown();
+    }
+});
+
+const featuredTrailer = document.getElementById("featuredTrailer");
+const youtubeFallback = document.getElementById("youtubeFallback");
+document.querySelectorAll(".trailer-card").forEach((button) => {
+    button.addEventListener("click", () => {
+        const videoId = button.getAttribute("data-video");
+        const youtubeUrl = button.getAttribute("data-youtube");
+        featuredTrailer.src = "https://www.youtube-nocookie.com/embed/" + videoId + "?rel=0&modestbranding=1&playsinline=1";
+        youtubeFallback.href = youtubeUrl;
+        trackEvent("trailer_select", { videoId: videoId });
+    });
+});
+
+const analyticsEvents = JSON.parse(localStorage.getItem("gtaAnalyticsEvents") || "[]");
+
+function trackEvent(name, payload) {
+    const event = {
+        event: name,
+        timestamp: new Date().toISOString(),
+        payload: payload || {}
+    };
+    analyticsEvents.push(event);
+    if (analyticsEvents.length > 200) {
+        analyticsEvents.splice(0, analyticsEvents.length - 200);
+    }
+    try {
+        localStorage.setItem("gtaAnalyticsEvents", JSON.stringify(analyticsEvents));
+    } catch (error) {
+        return;
+    }
+}
+
+const officialWishlistUrls = {
+    playstation: "",
+    xbox: ""
+};
+document.querySelectorAll(".platform-card").forEach((link) => {
+    const platform = link.getAttribute("data-platform");
+    if (platform && officialWishlistUrls[platform]) {
+        link.href = officialWishlistUrls[platform];
+    }
+    link.addEventListener("click", () => {
+        trackEvent("platform_click", { platform: platform || "unknown", href: link.href });
+    });
+});
+
+const discordLink = document.querySelector(".discord-cta");
+if (discordLink) {
+    discordLink.addEventListener("click", () => {
+        trackEvent("discord_click", { href: discordLink.href });
+    });
+}
+
+document.querySelectorAll("img[data-fallback-src]").forEach((img) => {
+    let fallbackAttempted = false;
+    img.addEventListener("error", () => {
+        const fallbackSrc = img.getAttribute("data-fallback-src");
+        if (!fallbackAttempted && fallbackSrc && img.src !== fallbackSrc) {
+            fallbackAttempted = true;
+            img.src = fallbackSrc;
+            return;
+        }
+        img.style.display = "none";
+        const fallbackLabel = img.nextElementSibling;
+        if (fallbackLabel && fallbackLabel.classList.contains("icon-fallback")) {
+            fallbackLabel.classList.add("show");
+        }
+    });
+});
+
+const notifyForm = document.getElementById("notifyForm");
+const notifyEmail = document.getElementById("notifyEmail");
+const notifyMessage = document.getElementById("notifyMessage");
+
+notifyForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const email = notifyEmail.value.trim();
+
+    if (!email || !notifyEmail.checkValidity()) {
+        notifyMessage.textContent = "Enter a valid email address.";
+        return;
+    }
+
+    const existing = JSON.parse(localStorage.getItem("gtaNotifyEmails") || "[]");
+    if (!existing.includes(email)) {
+        existing.push(email);
+        localStorage.setItem("gtaNotifyEmails", JSON.stringify(existing));
+    }
+
+    trackEvent("notify_subscribe", { emailDomain: email.split("@")[1] || "" });
+    notifyMessage.textContent = "You are on the list. Saved on this device.";
+    notifyForm.reset();
+});
+
+const copyLinkBtn = document.getElementById("copyLinkBtn");
+const shareWhatsAppBtn = document.getElementById("shareWhatsAppBtn");
+const shareXBtn = document.getElementById("shareXBtn");
+const copyStoryTextBtn = document.getElementById("copyStoryTextBtn");
+const shareMessage = document.getElementById("shareMessage");
+const shareUrl = window.location.href;
+const shareText = "GTA VI Countdown is live. Check how long is left until launch.";
+const storyText = "GTA VI drops on 19 Nov 2026. Countdown is ON: " + shareUrl;
+
+async function copyText(text, successMessage) {
+    try {
+        if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(text);
+        } else {
+            const temp = document.createElement("textarea");
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand("copy");
+            document.body.removeChild(temp);
+        }
+        shareMessage.textContent = successMessage;
+    } catch (error) {
+        shareMessage.textContent = "Could not copy automatically. Please copy manually.";
+    }
+}
+
+copyLinkBtn.addEventListener("click", () => {
+    trackEvent("share_copy_link");
+    copyText(shareUrl, "Link copied.");
+});
+
+shareWhatsAppBtn.addEventListener("click", () => {
+    trackEvent("share_whatsapp");
+    const url = "https://wa.me/?text=" + encodeURIComponent(shareText + " " + shareUrl);
+    window.open(url, "_blank", "noopener,noreferrer");
+});
+
+shareXBtn.addEventListener("click", () => {
+    trackEvent("share_x");
+    const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(shareText) + "&url=" + encodeURIComponent(shareUrl);
+    window.open(url, "_blank", "noopener,noreferrer");
+});
+
+copyStoryTextBtn.addEventListener("click", () => {
+    trackEvent("share_copy_story");
+    copyText(storyText, "Instagram story text copied.");
+});
+</script>
+
+</body>
+</html>
+
